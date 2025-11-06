@@ -1,34 +1,74 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Schema, Document, model, models } from "mongoose";
 
-export interface IComment {
-    _id?: string;
+interface Comment {
+    _id: string;
     author: string;
     content: string;
     createdAt: Date;
+    toxicityCheck: {
+        result: "Offensive" | "Neutral" | "Safe";
+        sarcasm: string;
+        checkedAt: Date;
+    };
 }
 
 export interface IPost extends Document {
+    _id: string;
     title: string;
-    content: string;
+    body: string;
     author: string;
-    comments: IComment[];
     createdAt: Date;
-    updatedAt: Date;
+    comments: Comment[];
 }
 
-const CommentSchema = new Schema({
-    author: { type: String, required: true, default: 'Anonymous' },
-    content: { type: String, required: true },
-    createdAt: { type: Date, default: Date.now }
+const CommentSchema = new Schema<Comment>({
+    author: {
+        type: String,
+        default: "Anonymous",
+    },
+    content: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
+    toxicityCheck: {
+        result: {
+            type: String,
+            enum: ["Offensive", "Neutral", "Safe"],
+            required: true,
+        },
+        sarcasm: {
+            type: String,
+            default: "Unknown",
+        },
+        checkedAt: {
+            type: Date,
+            default: Date.now,
+        },
+    },
 });
 
-const PostSchema = new Schema({
-    title: { type: String, required: true },
-    content: { type: String, required: true },
-    author: { type: String, required: true, default: 'Anonymous' },
-    comments: [CommentSchema]
-}, {
-    timestamps: true
-});
+const PostSchema = new Schema<IPost>(
+    {
+        author: {
+            type: String,
+            default: "Anonymous"
+        },
+        title: {
+            type: String,
+            required: true,
+        },
+        body: {
+            type: String,
+            required: true,
+        },
+        comments: [CommentSchema],
+    },
+    { timestamps: true }
+);
 
-export default mongoose.models.Post || mongoose.model<IPost>('Post', PostSchema);
+export default models.Post || model<IPost>("Post", PostSchema);
