@@ -8,10 +8,12 @@
         "build": "next build",
         "start": "next start",
         "lint": "eslint",
-        "seed": "ts-node src/scripts/seedData.ts"
+        "seed": "node --no-warnings --loader ts-node/esm src/scripts/seedData.ts"
     },
     "dependencies": {
         "axios": "^1.13.2",
+        "dotenv": "^17.2.3",
+        "lucide-react": "^0.553.0",
         "mongoose": "^8.19.3",
         "next": "16.0.1",
         "react": "19.2.0",

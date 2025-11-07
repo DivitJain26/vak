@@ -1,5 +1,11 @@
+'use client';
+
+import { useState } from 'react';
 import { IPost } from '@/src/models/post';
-import CommentForm from './CommentForm';
+import PostHeader from '@/src/components/PostHeader';
+import PostMedia from '@/src/components/PostMedia';
+import PostActions from '@/src/components/PostActions';
+import CommentsSection from '@/src/components/CommentsSection';
 
 interface PostCardProps {
     post: IPost;
@@ -7,40 +13,77 @@ interface PostCardProps {
 }
 
 export default function PostCard({ post, onCommentAdded }: PostCardProps) {
+    const [showComments, setShowComments] = useState(false);
+    const [likes, setLikes] = useState(post.likes || 0);
+    const [isLiked, setIsLiked] = useState(false);
+
+    const handleLike = async () => {
+        try {
+            const newLikes = isLiked ? likes - 1 : likes + 1;
+            setLikes(newLikes);
+            setIsLiked(!isLiked);
+
+            await fetch(`/api/posts/${post._id}/like`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ likes: newLikes }),
+            });
+        } catch (error) {
+            console.error('Failed to update likes:', error);
+            // Revert on error
+            setLikes(likes);
+            setIsLiked(!isLiked);
+        }
+    };
+
+    const handleCommentClick = () => {
+        setShowComments(!showComments);
+    };
+
     return (
-        <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-            <div className="mb-4">
-                <h2 className="text-xl font-semibold text-gray-800 mb-2">{post.title}</h2>
-                <p className="text-gray-600 mb-3">{post.body}</p>
-                <div className="flex justify-between items-center text-sm text-gray-500">
-                    <span>By {post.author}</span>
-                    <span>{new Date(post.createdAt).toLocaleDateString()}</span>
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 mb-6 overflow-hidden hover:shadow-xl transition-all duration-300">
+            {/* Post Header */}
+            <PostHeader author={post.author} profilePic={post.profilePic} createdAt={post.createdAt} />
+
+            {/* Post Content */}
+            <div className="px-6 pb-4">
+                <h2 className="text-xl font-bold text-gray-900 mb-3">{post.title}</h2>
+                <p className="text-gray-700 leading-relaxed">{post.content}</p>
+            </div>
+
+            {/* Media Content */}
+            {post.mediaUrl && (
+                <PostMedia mediaUrl={post.mediaUrl} mediaType={post.mediaType} />
+            )}
+
+            {/* Post Stats */}
+            <div className="px-6 py-3 border-y border-gray-100">
+                <div className="flex items-center justify-between text-sm text-gray-600">
+                    <span className="font-medium">{likes} likes</span>
+                    <button
+                        onClick={handleCommentClick}
+                        className="font-medium hover:text-blue-600 transition-colors"
+                    >
+                        {post.comments.length} comments
+                    </button>
                 </div>
             </div>
 
-            <div className="border-t pt-4">
-                <h3 className="font-semibold mb-3">Comments ({post.comments.length})</h3>
+            {/* Action Buttons */}
+            <PostActions
+                isLiked={isLiked}
+                onLike={handleLike}
+                onComment={handleCommentClick}
+            />
 
-                <div className="space-y-3 mb-4">
-                    {post.comments.map((comment) => (
-                        <div key={comment._id} className="bg-gray-50 rounded-lg p-3">
-                            <div className="flex justify-between items-start mb-1">
-                                <span className="font-medium text-gray-700">{comment.author}</span>
-                                <span className="text-xs text-gray-500">
-                                    {new Date(comment.createdAt).toLocaleDateString()}
-                                </span>
-                            </div>
-                            <p className="text-gray-600">{comment.content}</p>
-                        </div>
-                    ))}
-
-                    {post.comments.length === 0 && (
-                        <p className="text-gray-500 text-center py-4">No comments yet. Be the first to comment!</p>
-                    )}
-                </div>
-
-                <CommentForm postId={post._id!} onCommentAdded={onCommentAdded} />
-            </div>
+            {/* Comments Section - Collapsible */}
+            {showComments && (
+                <CommentsSection
+                    comments={post.comments}
+                    postId={post._id}
+                    onCommentAdded={onCommentAdded}
+                />
+            )}
         </div>
     );
 }

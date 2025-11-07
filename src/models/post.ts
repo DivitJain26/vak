@@ -1,27 +1,57 @@
-import mongoose, { Schema, Document, model, models } from "mongoose";
+// import mongoose, { Schema, Document, model, models } from "mongoose";
+import mongoosePkg from "mongoose";
+const { Schema, model, models } = mongoosePkg;
 
-interface Comment {
+export interface IToxicityCheck {
+    result: "Offensive" | "Neutral" | "Safe";
+    sarcasm: string;
+    checkedAt: Date;
+    bypassed?: boolean;
+}
+
+export interface IComment {
     _id: string;
     author: string;
     content: string;
-    createdAt: Date;
-    toxicityCheck: {
-        result: "Offensive" | "Neutral" | "Safe";
-        sarcasm: string;
-        checkedAt: Date;
-    };
+    createdAt: string | Date;
+    toxicityCheck?: IToxicityCheck;
 }
 
-export interface IPost extends Document {
+export interface IPost extends mongoosePkg.Document {
     _id: string;
     title: string;
-    body: string;
+    content: string;
     author: string;
-    createdAt: Date;
-    comments: Comment[];
+    profilePic?: string; 
+    createdAt: string | Date;
+    updatedAt: Date;
+    mediaUrl?: string;
+    mediaType?: 'image' | 'video' | null;
+    likes: number;
+    comments: IComment[];
 }
 
-const CommentSchema = new Schema<Comment>({
+const ToxicityCheckSchema = new Schema<IToxicityCheck>({
+    result: {
+        type: String,
+        enum: ["Offensive", "Neutral", "Safe"],
+        required: true,
+    },
+    sarcasm: {
+        type: String,
+        default: "Unknown",
+    },
+    checkedAt: {
+        type: Date,
+        default: Date.now,
+    },
+    bypassed: {
+        type: Boolean,
+        default: false
+    }
+});
+
+const CommentSchema = new Schema<IComment>({
     author: {
         type: String,
         default: "Anonymous",
@@ -35,21 +65,7 @@ const CommentSchema = new Schema<Comment>({
         type: Date,
         default: Date.now,
     },
-    toxicityCheck: {
-        result: {
-            type: String,
-            enum: ["Offensive", "Neutral", "Safe"],
-            required: true,
-        },
-        sarcasm: {
-            type: String,
-            default: "Unknown",
-        },
-        checkedAt: {
-            type: Date,
-            default: Date.now,
-        },
-    },
+    toxicityCheck: ToxicityCheckSchema,
 });
 
 const PostSchema = new Schema<IPost>(
@@ -61,10 +77,25 @@ const PostSchema = new Schema<IPost>(
         title: {
             type: String,
             required: true,
+            trim: true,
         },
-        body: {
+        content: {
             type: String,
             required: true,
+            trim: true,
+        },
+        mediaUrl: {
+            type: String,
+            required: false,
+        },
+        mediaType: {
+            type: String,
+            enum: ['image', 'video'],
+            required: false,
+        },
+        likes: {
+            type: Number,
+            default: 0,
         },
         comments: [CommentSchema],
     },

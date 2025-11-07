@@ -40,7 +40,7 @@
         ".next/types/**/*.ts",
         ".next/dev/types/**/*.ts",
         "**/*.mts"
-    ],
+, "src/scripts/seedData.ts", "src/scripts/test.ts"    ],
     "exclude": [
         "node_modules"
     ]
