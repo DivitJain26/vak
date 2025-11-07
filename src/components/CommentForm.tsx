@@ -136,7 +136,8 @@ export default function CommentForm({ postId, onCommentAdded }: CommentFormProps
                         onClick={handleEditComment}
                         className="flex-1 px-4 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 transition-colors font-medium"
                     >
-                        <Pencil className="w-4 h-4 mr-2" />
+                        <Pencil className="w-4 h-4 mr-2 inline" />
+                        Edit
                     </button>
                     <button
                         onClick={handlePostAnyway}

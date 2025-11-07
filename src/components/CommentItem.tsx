@@ -29,7 +29,7 @@ export default function CommentItem({ comment }: CommentItemProps) {
                         )}
                     </div>
                     <span className="text-xs text-gray-500">
-                        {comment.createdAt.toLocaleDateString()}
+                        {new Date(comment.createdAt).toLocaleDateString()}
                     </span>
                 </div>
                 <p className="text-gray-700 text-sm leading-relaxed">{comment.content}</p>
