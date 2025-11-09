@@ -48,7 +48,7 @@ export default function Home() {
                             <div className="w-10 h-10 bg-linear-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white font-bold text-lg">
                                 S
                             </div>
-                            <h1 className="text-2xl font-bold text-gray-900">SocialFeed</h1>
+                            <h1 className="text-2xl font-bold text-gray-900">V.A.K.</h1>
                         </div>
                         <button
                             onClick={() => setShowCreatePost(true)}
