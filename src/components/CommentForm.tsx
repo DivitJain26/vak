@@ -12,8 +12,7 @@ interface CommentFormProps {
 
 interface ToxicityResult {
     comment: string;
-    result: 'Offensive' | 'Neutral' | 'Safe';
-    sarcasm: string;
+    result: 'Abusive' | 'Neutral' | 'Safe';
     error?: string;
 }
 
@@ -115,16 +114,13 @@ export default function CommentForm({ postId, onCommentAdded }: CommentFormProps
                     <div className="bg-yellow-100 border border-yellow-200 rounded-lg p-3 mb-3">
                         <div className="flex items-center justify-between mb-2">
                             <span className="text-yellow-800 font-medium">Analysis Results:</span>
-                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${toxicityResult.result === 'Offensive'
+                            <span className={`px-2 py-1 rounded-full text-xs font-semibold ${toxicityResult.result === 'Abusive'
                                 ? 'bg-red-100 text-red-800'
                                 : 'bg-yellow-100 text-yellow-800'
                                 }`}>
                                 {toxicityResult.result}
                             </span>
                         </div>
-                        <p className="text-yellow-700 text-sm mb-2">
-                            <strong>Sarcasm Detection:</strong> {toxicityResult.sarcasm}
-                        </p>
                         <div className="bg-white rounded border border-yellow-300 p-2">
                             <p className="text-yellow-900 text-sm italic">&quot;{toxicityResult.comment}&quot;</p>
                         </div>

@@ -2,8 +2,7 @@ const FLASK_API_URL = process.env.NEXT_PUBLIC_FLASK_API_URL;
 
 export interface ToxicityResult {
     comment: string;
-    result: 'Offensive' | 'Neutral' | 'Safe';
-    sarcasm: string;
+    result: 'Abusive' | 'Neutral' | 'Safe';
     error?: string;
 }
 

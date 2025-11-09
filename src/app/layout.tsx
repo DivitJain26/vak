@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-    title: 'Social Media App',
+    title: 'V.A.K',
     description: 'A safe social media platform with toxicity detection',
 };
 

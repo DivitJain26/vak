@@ -3,8 +3,7 @@ import mongoosePkg from "mongoose";
 const { Schema, model, models } = mongoosePkg;
 
 export interface IToxicityCheck {
-    result: "Offensive" | "Neutral" | "Safe";
-    sarcasm: string;
+    result: "Abusive" | "Neutral" | "Safe";
     checkedAt: Date;
     bypassed?: boolean;
 }
@@ -34,12 +33,8 @@ export interface IPost extends mongoosePkg.Document {
 const ToxicityCheckSchema = new Schema<IToxicityCheck>({
     result: {
         type: String,
-        enum: ["Offensive", "Neutral", "Safe"],
+        enum: ["Abusive", "Neutral", "Safe"],
         required: true,
-    },
-    sarcasm: {
-        type: String,
-        default: "Unknown",
     },
     checkedAt: {
         type: Date,

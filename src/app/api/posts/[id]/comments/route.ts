@@ -33,7 +33,7 @@ export async function POST(
         const toxicityResult = await checkCommentToxicity(commentData.content)
 
         // If comment is offensive, return toxicity result for frontend handling
-        if (toxicityResult.result === 'Offensive') {
+        if (toxicityResult.result === 'Abusive') {
             return NextResponse.json(
                 {
                     error: 'Comment contains offensive content',
@@ -51,7 +51,6 @@ export async function POST(
             createdAt: new Date(),
             toxicityCheck: {
                 result: toxicityResult.result,
-                sarcasm: toxicityResult.sarcasm,
                 checkedAt: new Date()
             }
         };
