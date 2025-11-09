@@ -4,7 +4,7 @@ import Image from "next/image";
 interface PostHeaderProps {
     author: string;
     profilePic?: string;
-    createdAt: Date;
+    createdAt: Date | string;
 }
 
 export default function PostHeader({ author, profilePic, createdAt }: PostHeaderProps) {
