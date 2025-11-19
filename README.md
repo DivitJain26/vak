@@ -18,6 +18,21 @@ It may take ~1 minute to respond the first time while the server wakes up.*
 ```bash
 npm install
 ```
+## Environment Setup
+
+Create a .env file in the root of your project:
+
+```bash
+cp .env.example .env
+```
+
+Then open .env and fill in your MongoDB database connection:
+```bash
+MONGODB_URI=your_mongodb_connection_string_here
+```
+
+
+(Use your MongoDB Atlas URI)
 
 ## Scripts & Commands
 Run all commands from the root directory of the Next.js project.
