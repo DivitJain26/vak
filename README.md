@@ -2,6 +2,10 @@
 
 **A Social Platform with AI-Powered Toxicity Detection**
 
+<p align="center">
+  <img src="public/demo.png" alt="VAK Demo" width="800"/>
+</p>
+
 ## Next.js Frontend (Main App)
 
 Repository: (Machine Learning API):
