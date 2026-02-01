@@ -2,7 +2,9 @@
 
 **A Social Platform with AI-Powered Toxicity Detection**
 
-![VAK Demo](public/demo.png)
+<p align="center">
+  <img src="demo-picture.png" alt="VAK Demo" width="800"/>
+</p>
 
 ## Next.js Frontend (Main App)
 
