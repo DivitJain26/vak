@@ -68,6 +68,8 @@ Run all commands from the root directory of the Next.js project.
 
 **Start Next.js Development Server**
 
+<img src="public/system-architecture.jpg" alt="VAK System Architecture" width="1000"/>
+
 ```bash
 npm run dev
 ```
