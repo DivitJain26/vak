@@ -76,4 +76,6 @@ Now visit your app at:
 http://localhost:3000
 
 ## System Architecture
-<img src="system-architecture.jpg" alt="VAK System Architecture" width="1000"/>
+<p align="center">
+  <img src="system-architecture.jpg" alt="VAK System Architecture" width="1000"/>
+<p>
