@@ -77,5 +77,5 @@ http://localhost:3000
 
 ## System Architecture
 <p align="center">
-  <img src="system-architecture.jpg" alt="VAK System Architecture" width="1000"/>
+  <img src="system-architecture.png" alt="VAK System Architecture" width="1000"/>
 <p>
